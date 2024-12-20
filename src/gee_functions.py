@@ -1,6 +1,4 @@
 import ee
-import rasterio
-from shapely.geometry import box
 
 #------------------ HELPER FUNCTIONS ----------------------#
 
