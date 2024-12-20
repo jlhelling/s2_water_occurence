@@ -72,7 +72,7 @@ def calc_ndwi(img):
     return img.addBands(adjusted_ndwi).select(['water', 'NDWI'])
 
 # create monthly and yearly water rasters from S2 collection with NDWI and DW
-def get_monthly_water_occurence_yr(YEAR, AOI, WATER_THRESHOLD = 0.5, FILTER_CLOUDS = False, CLOUD_THRESHOLD = 0.65):
+def get_monthly_water_occurence_yr(YEAR, AOI, WATER_THRESHOLD = 0.5, FILTER_CLOUDS = True, CLOUD_THRESHOLD = 0.70):
     """
     Extracts monthly water occurence frequency at the pixel-scale for a region of interest over a defined year. Water occurence is calculated for individual months. 
     Water is detected via a combined index from the S2-collection NDWI and DW water probability.
