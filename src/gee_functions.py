@@ -147,12 +147,15 @@ def get_monthly_water_occurence_yr(YEAR, AOI, WATER_THRESHOLD = 0.5, FILTER_CLOU
         
         monthly_col = filter_by_year_and_month(col_combined, year_int, month)
         
-        # get valid and total values for selected month
+        # get valid and water observations for selected month
         count_total = monthly_col.select('water_prob').count().rename(['count_total'])
-        count_valid = monthly_col.select('water_prob').map(apply_water_mask).count().rename(['count_valid'])
+        count_water = monthly_col.select('water_prob').map(apply_water_mask).count().unmask(0).rename(['count_valid'])
             
         # calculate monthly frequency
-        monthly_freq = count_valid.divide(count_total).rename(f'freq_month')
+        monthly_freq = count_water.divide(count_total).rename(f'freq_month')
+
+        # # ensure that monthly_freq is 0 and not NaN where valid observations but no water observations exist
+        # monthly_freq = monthly_freq.where(count_total.gt(0).And(count_water.eq(0)), 0)
 
         # Mask frequencies without observations
         monthly_freq = monthly_freq.updateMask(count_total.gt(0))  
